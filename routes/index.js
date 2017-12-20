@@ -29,7 +29,7 @@ router.get('/load', (req, res, next) => {
 
   let verification = bigCommerce.verify(req.query['signed_payload']);
   console.log(verification);
-  res.render('index', {title: 'Load', data: verification});
+  res.render('index', {title: 'Load', data: JSON.stringify(verification)});
 
   
 });
