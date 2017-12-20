@@ -39,7 +39,7 @@ router.get('/uninstall', (req,res) => {
 })
 
 router.post('/generate', (req, res) => {
-  let timestamp = (new Date()).getTime();
+  let timestamp = (new Date()).getTime() / 1000;
   let payload = {
     iss: 'ivi3bodo24q0jzxrglt9crpspxr0lv2',
     iat: timestamp,
@@ -58,7 +58,7 @@ router.post('/generate', (req, res) => {
   });
 
   console.log(req.body);
-  res.send(`JWT: \n${token}`);
+  res.send(`https://briandavenport.ninja/login/token/${token}`);
 })
 
 
