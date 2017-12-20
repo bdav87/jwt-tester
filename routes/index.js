@@ -23,10 +23,10 @@ router.get('/auth', (req,res, next) => {
   .catch((err) => {
     console.log(`Auth route error: ${err}`);
   });
+  next();
 });
 
 router.get('/load', (req, res, next) => {
-  console.log(bigCommerce);
   bigCommerce.verify(req.query['signed_payload'])
     .then(data => res.render('index', { title: 'Welcome!', data: data }))
     .catch((err) => {
