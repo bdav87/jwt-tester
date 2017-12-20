@@ -23,15 +23,21 @@ router.get('/auth', (req,res, next) => {
   .catch((err) => {
     console.log(`Auth route error: ${err}`);
   });
-  next();
 });
 
 router.get('/load', (req, res, next) => {
-  bigCommerce.verify(req.query['signed_payload'])
+
+  if(bigCommerce){
+    bigCommerce.verify(req.query['signed_payload'])
     .then(data => res.render('index', { title: 'Welcome!', data: data }))
     .catch((err) => {
       console.log(`Error: ${err}`);
     });
+  } else {
+    res.render('index', {data: 'bigCommerce is not defined currently'})
+  }
+
+  
 });
 
 router.get('/uninstall', (req,res) => {
