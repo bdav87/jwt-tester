@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/auth', (req,res, next) => {
-  bigCommerce.auth(req.query)
+  bigCommerce.authorize(req.query)
   .then(data => res.render('index', { title: 'Authorized!', data: data }))
   .catch(next);
 });
@@ -34,5 +34,9 @@ router.get('/load', (req, res, next) => {
       console.log(`Error: ${err}`);
     });
 });
+
+router.get('/uninstall', (req,res) => {
+  res.sendStatus('200');
+})
 
 module.exports = router;
