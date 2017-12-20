@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const BigCommerce = require('node-bigcommerce');
+const uuidv4 = require('uuid/v4');
 
 const bigCommerce = new BigCommerce({
   logLevel: 'info',
@@ -31,11 +32,34 @@ router.get('/load', (req, res, next) => {
   console.log(verification);
   res.render('index', {title: 'Load', data: JSON.stringify(verification)});
 
-  
 });
 
 router.get('/uninstall', (req,res) => {
   res.sendStatus('200');
 })
+
+router.post('/generate', (req, res) => {
+  let timestamp = (new Date()).getTime();
+  let payload = {
+    iss: 'ivi3bodo24q0jzxrglt9crpspxr0lv2',
+    iat: timestamp,
+    jti: uuidv4(),
+    operation: 'customer_login',
+    store_hash: 'hfdehryc',
+    customer_id: req.body.customerID,
+    redirect_to: req.body.redirectURL
+  }
+
+  let token = jwt.sign(payload,'87a7zw533cvk4vskgfj1dyo0tpzoyt0', {
+    header: {
+      typ: 'JWT', 
+      alg: 'HS256'
+    }
+  });
+
+  console.log(req.body);
+  res.send(`JWT: \n${token}`);
+})
+
 
 module.exports = router;
