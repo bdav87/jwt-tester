@@ -7,7 +7,7 @@ const bigCommerce = new BigCommerce({
   logLevel: 'info',
   clientId: 'ivi3bodo24q0jzxrglt9crpspxr0lv2',
   secret: '87a7zw533cvk4vskgfj1dyo0tpzoyt0',
-  callback: '/auth',
+  callback: 'https://jwt-tester.herokuapp.com/auth',
   responseType: 'json',
   apiVersion: 'v2' // Default is v2
 })
@@ -20,12 +20,10 @@ router.get('/', (req, res, next) => {
 router.get('/auth', (req,res, next) => {
   bigCommerce.authorize(req.query)
   .then(data => res.render('index', { title: 'Authorized!', data: data }))
-  .catch(next);
+  .catch((err) => {
+    console.log(`Auth route error: ${err}`);
+  });
 });
-
-router.get('/error', (req,res) => {
-  res.render('error');
-})
 
 router.get('/load', (req, res, next) => {
   bigCommerce.verify(req.query['signed_payload'])
