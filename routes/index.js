@@ -19,13 +19,14 @@ router.get('/', (req, res, next) => {
 
 router.get('/auth', (req,res, next) => {
   bigCommerce.authorize(req.query)
-  .then(data => res.render('index', { title: 'Authorized!', data: data }))
+  .then((data) => res.render('index', { title: 'Authorized!', data: JSON.stringify(data) }))
   .catch((err) => {
     console.log(`Auth route error: ${err}`);
   });
 });
 
 router.get('/load', (req, res, next) => {
+  console.log(bigCommerce);
   bigCommerce.verify(req.query['signed_payload'])
     .then(data => res.render('index', { title: 'Welcome!', data: data }))
     .catch((err) => {
