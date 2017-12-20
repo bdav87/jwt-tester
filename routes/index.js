@@ -27,7 +27,7 @@ router.get('/auth', (req,res, next) => {
 
 router.get('/load', (req, res, next) => {
 
-  if(bigCommerce){
+  if(bigCommerce.config){
     bigCommerce.verify(req.query['signed_payload'])
     .then(data => res.render('index', { title: 'Welcome!', data: data }))
     .catch((err) => {
