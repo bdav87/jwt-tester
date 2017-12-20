@@ -27,15 +27,9 @@ router.get('/auth', (req,res, next) => {
 
 router.get('/load', (req, res, next) => {
 
-  if(bigCommerce.config){
-    bigCommerce.verify(req.query['signed_payload'])
-    .then(data => res.render('index', { title: 'Welcome!', data: data }))
-    .catch((err) => {
-      console.log(`Error: ${err}`);
-    });
-  } else {
-    res.render('index', {data: 'bigCommerce is not defined currently'})
-  }
+  let verification = bigCommerce.verify(req.query['signed_payload']);
+  console.log(verification);
+  res.render('index', {title: 'Load', data: data});
 
   
 });
