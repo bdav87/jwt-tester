@@ -6,8 +6,8 @@ const uuidv4 = require('uuid/v4');
 
 const bigCommerce = new BigCommerce({
   logLevel: 'info',
-  clientId: 'ivi3bodo24q0jzxrglt9crpspxr0lv2',
-  secret: '87a7zw533cvk4vskgfj1dyo0tpzoyt0',
+  clientId: process.env.CLIENT_ID,
+  secret: process.env.CLIENT_SECRET,
   callback: 'https://jwt-tester.herokuapp.com/auth',
   responseType: 'json',
   apiVersion: 'v2' // Default is v2
@@ -41,7 +41,7 @@ router.get('/uninstall', (req,res) => {
 router.post('/generate', (req, res) => {
   let timestamp = (new Date()).getTime() / 1000;
   let payload = {
-    iss: 'ivi3bodo24q0jzxrglt9crpspxr0lv2',
+    iss: process.env.CLIENT_ID,
     iat: timestamp,
     jti: uuidv4(),
     operation: 'customer_login',
@@ -50,7 +50,7 @@ router.post('/generate', (req, res) => {
     redirect_to: req.body.redirectURL
   }
 
-  let token = jwt.sign(payload,'87a7zw533cvk4vskgfj1dyo0tpzoyt0', {
+  let token = jwt.sign(payload,process.env.CLIENT_SECRET, {
     header: {
       typ: 'JWT', 
       alg: 'HS256'
